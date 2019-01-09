@@ -1,0 +1,28 @@
+<div class="page-card">
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @sub_nav.title %>
+</p>
+
+<p>
+  <strong>Nav/link:</strong>
+	<%= @sub_nav.nav.title if @sub_nav.nav.present? %><%= @sub_nav.link if @sub_nav.link? %>
+</p>
+
+<p>
+  <strong>Page:</strong>
+  <%= @sub_nav.page_id %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @sub_nav.number %>
+</p>
+
+<%= link_to 'Redigér', edit_sub_nav_path(@sub_nav), class: 'btn btn-dark' %><br><br>
+<%= link_to 'Tilbake', sub_navs_path, class: 'btn btn-dark' %>
+
+</div>

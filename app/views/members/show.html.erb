@@ -1,0 +1,44 @@
+<div class="row" style="padding: 50px">
+	<p id="notice"><%= notice.html_safe if notice %></p>
+	<div class="col-xs-6 col-md-4">
+			<%= image_tag @member.profile_pic.url(:profile_pic) if @member.profile_pic? %>
+			<%= image_tag '/profile.png' if !@member.profile_pic? %>
+	</div>
+	<div class="col-xs-6 col-md-4">
+		<%= @member.first_name %> <%= @member.last_name %><br>
+		<%= @member.email %><br>
+		<%= @member.phone if @member.phone %><br>
+		<% if @member.children.any? %>
+		<div style="background: #1c1c1c;padding:10px;">
+			Dine barn: <hr>
+			<% @member.children.each do |c| %>
+			<%= c.first_name %> <%= c.last_name %><br>
+			<strong>Bursdag:</strong> <%= c.birthdate %><hr>
+			<% end %>
+		</div>
+		<% end %><br>
+		<% if @member.grandparents.any? %>
+		<div style="background: #1c1c1c;padding:10px;">
+			Dine besteforeldre: <hr>
+			<% @member.grandparents.each do |g| %>
+			<%= g.first_name %> <%= g.last_name %><br>
+			<% end %>
+		</div>
+		<% end %>
+		<% @participations.each do |p| %>
+			<%= p.course.course_niveau.name if p.course.course_niveau %> <%= p.course.course_category.name if p.course.course_category %> <%= p.course.course_place.name if p.course.course_place %> <%= p.course.day.strftime('%A | %b %d') if p.course.day %><br><br>
+		<% end %>
+		<% @courses.each do |c| %>
+			<% if c.day.future? %>
+				<%= c.course.course_niveau.name %> <%= c.course.course_category.name %> <%= c.course.course_place.name %> <%= c.day.strftime('%A | %b %d') %><br>
+			<% end %>
+		<% end %>
+	</div>
+	<div class="col-xs-6 col-md-4">
+		<%= link_to "Redigér konto", edit_member_registration_path, class: 'btn btn-primary' %><br><br>
+		<%= link_to "Legg til barn", barn_path, class: 'btn btn-primary' %><br><br>
+		<%= link_to "Legg til besteforeldre", besteforeldre_path, class: 'btn btn-primary' %><br><br>
+		<%= link_to "Dine kurs", orders_path, class: 'btn btn-primary' %><br><br>
+		<%= link_to "Find kurs", courses_path, class: 'btn btn-primary' %>
+	</div>
+</div>

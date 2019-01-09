@@ -1,0 +1,16 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid" style="padding: 10px">
+    <%= link_to (image_tag '/logo.png'), root_path %>
+    <div style="float:right">
+    	<%= link_to "Coach login", new_coach_session_path, class: 'top-navbar' if !coach_signed_in? and !member_signed_in? %>
+      <%= link_to "Konto", edit_coach_registration_path, class: 'top-navbar' if coach_signed_in? %>
+      <%= link_to "Sign out", destroy_coach_session_path, method: :delete, class: 'top-navbar' if coach_signed_in? %>
+	    <br>
+      <%= link_to "Kurs", courses_path %>
+      <%= link_to "Logg inn", new_member_registration_path if !member_signed_in? and !coach_signed_in? %>
+      <%= link_to "Konto", edit_member_registration_path if member_signed_in? %>
+      <%= link_to "Logg utt", destroy_member_session_path, method: :delete if member_signed_in? %>
+    </div>
+      
+  </div>
+</nav>

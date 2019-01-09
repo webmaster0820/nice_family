@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<center>
+
+	<div class="padding">
+		<h2 style="color:#ff3f00;font-size: 44px"><%= @course_category.name %></h2>
+
+
+		<% if @course_category.age_from %>Fra <%= @course_category.age_from if @course_category.age_from %> - <%= @course_category.age_to if @course_category.age_to %> år.<% end %>
+	</div>
+
+
+
+	<div class="row">
+		<% @course_niveaus.each do |cn| %>
+			<div class="col-xs-6 col-sm-4">
+				<div class="block">
+				<div class="hovicon effect-8">
+				<%= @course_category.name %> <%= cn.name %><br><br>
+				<%= link_to "SE LEDIGE KURS", cn, class: 'main-button padding' %>
+			</div>
+			</div>
+			</div>
+		<% end %>
+	</div>
+
+</center>
+<%= link_to 'Tilbake', course_categories_path %>

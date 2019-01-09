@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  price: 9.99
+  coach_id: 1
+  course_niveau_id: 1
+  course_place_id: 1
+  course_day_id: 1
+
+two:
+  name: MyString
+  description: MyText
+  price: 9.99
+  coach_id: 1
+  course_niveau_id: 1
+  course_place_id: 1
+  course_day_id: 1

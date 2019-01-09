@@ -1,0 +1,19 @@
+<div class="page-card">
+
+
+Til 
+            <% if @email.course %>
+              deltakere på kurs: <%= @email.course.course_category.name %> <%= @email.course.course_place.name %> | <%= @email.course.day.strftime("%A | %b %d '%y") %>
+            <% elsif @email.member %>
+              deltaker: <%= @email.member.first_name %> <%= @email.member.last_name %>
+            <% end %><br>
+<strong style="font-size: 30px"><%= @email.subject %></strong>
+
+<p>
+  <%= simple_format(@email.content) %><hr>
+</p>
+
+<%= link_to '← Tilbake', emails_path, class: 'blue-button' %> |
+<%= link_to 'Rediger/Send', edit_email_path(@email), class: 'blue-button' %>
+
+</div>

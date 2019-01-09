@@ -1,0 +1,6 @@
+<div class="nested-fields">
+  <%= f.text_field :first_name, placeholder: 'Barn Fornavn' %><br />
+  <%= f.text_field :last_name, placeholder: 'Barn Etternavn' %><br />
+  <%= f.hidden_field :member_id, value: current_member %><br />
+  <%= f.hidden_field :course_id, value: @course %><br />
+</div>

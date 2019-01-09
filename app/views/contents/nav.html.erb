@@ -1,0 +1,40 @@
+<div class="page-card">
+
+<h3>Nytt menu link</h3>
+<br>
+
+<%= form_with(model: @content, local: true) do |form| %>
+  <% if @content.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(content.errors.count, "error") %> prohibited this content from being saved:</h2>
+
+      <ul>
+      <% content.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :placement, value: 'nav' %>
+
+  <div class="field">
+    <%= form.label :titel %><br>
+    <%= form.text_field :title %>
+  </div>
+
+  <br>
+
+  <div class="field">
+    <%= form.label :side_linket_skal_henvise_til %>
+		<%= form.select :url, Content.page.all.map { |u| [u.title, u.id] }, { include_blank: true }, { class: 'chosen-select' } %>
+  </div>
+
+  <br>
+
+  <div class="actions">
+    <%= form.submit "Opprett", class: 'btn btn-dark' %>
+  </div>
+<% end %>
+
+</div>

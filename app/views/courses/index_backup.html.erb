@@ -1,0 +1,59 @@
+<div style="padding: 50px">
+
+<h1>Kurs</h1>
+
+<div class="dropdown-course">
+<%= form_tag('/courses',:method=>:get) do %>                          
+
+  <%= select_tag "course_niveau_id", options_from_collection_for_select(CourseNiveau.all, "id", "name",params[:course_niveau_id]), :prompt => "Nivå", onchange: 'this.form.submit();' %>
+
+
+  <%= select_tag "course_category_id", options_from_collection_for_select(CourseCategory.all, "id", "name",params[:course_category_id]), :prompt => "Kategori", onchange: 'this.form.submit();' %>
+
+  <%= select_tag "course_place_id", options_from_collection_for_select(CoursePlace.all, "id", "name",params[:course_place_id]), :prompt => "Sted", onchange: 'this.form.submit();' %>
+
+  <%= select_tag "day", options_from_collection_for_select(Course.all.uniq { |h| h[:day] }, "day", "course_day"), :prompt => "Dag", onchange: 'this.form.submit();' %>
+
+<% end %>
+</div>
+
+<br>
+
+<div class="row">
+  <% @courses.each do |course| %>
+    <% unless course.day.past? %>
+      <div class="col-xs-6 col-sm-3">
+        <div class="card">
+          <%= link_to (image_tag (course.course_image.url(:product)), class: 'course-image'), course_path(course) if course.course_image %>
+          <div class="card-body">
+            <div class="row" style="margin: 0">
+                <h4 class="card-title row"><%= course.course_category.name %> <% if course.age_from and course.age_to %><%= course.age_from %>-<%= course.age_to %> år<% end %> <%= course.course_niveau.name if course.course_niveau %> | <%= course.course_place.name if course.course_place %></h4>
+            </div>
+          </div>
+            <div class="card-text"> <%= number_to_currency(course.price, :unit => "NOK") if course.price %></div>
+          <ul class="list-group list-group-flush">
+            <div class="row list-group-item">
+              <div class="col-xs-6" style="border-right: 1px solid #c3c2c2;padding:3px">
+              <span class="text-muted">Tid </span><span style="color:#1c1c1c"><%= course.time_from.strftime("%H:%M") if course.time_from %>-<%= course.time_to.strftime("%H:%M") if course.time_to %></span></li>
+            </div>
+              <div class="col-xs-6" style="padding:3px">
+              <span class="text-muted">Trener:</span> <%= link_to course.coach.name, coach_path(course), class: 'black-text' if course.coach %>
+              </div>
+            </div>
+          </ul>
+          <div class="row add-to-cart" style="margin: 0;text-align:center">
+
+            <%= form_tag order_items_path do %>
+              <%= hidden_field_tag :course_id, course.id %>
+              <%#= number_field_tag :quantity, 1 %>
+              <%= submit_tag "Legg i" %>
+            <% end %>
+          </div>
+        </div>
+      <hr style="border:0;padding:5px">
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+</div>

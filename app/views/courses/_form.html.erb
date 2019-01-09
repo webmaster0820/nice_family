@@ -1,0 +1,81 @@
+<div class="page-card">
+<h1>Nytt kurs</h1>
+<br>
+<%= form_with(model: course, local: true) do |form| %>
+  <% if course.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(course.errors.count, "error") %> prohibited this course from being saved:</h2>
+
+      <ul>
+      <% course.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row form-padding">
+    <div class="col-md-6">
+      <div class="field">
+        <%= form.label :dato %>
+        <%= form.date_field :day %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="field">
+        <%= form.label :fra_kl %>
+        <%= form.time_field :time_from %>  
+      </div><br>
+      <div class="field">
+        <%= form.label :tiL_kl %>
+        <%= form.time_field :time_to %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="field">
+        <%= form.label :bilde %>
+        <%= form.file_field :course_image %>
+      </div>
+    </div>
+
+    <div class="col-md-6 dropdown-course">
+      <%= form.select "coach_id", options_from_collection_for_select(Coach.all, "id", "name",params[:coach_id]), :prompt => "Trener", class: "chosen-select" %>
+    </div>
+
+
+    <div class="col-md-6 dropdown-course">
+      Trener: <br> <%= form.collection_select :coach_id, Coach.order(:name),:id,:name, :prompt => "Velg trener", class: "chosen-select" %>
+    </div>
+    <div class="col-md-6 dropdown-course">
+      Nivå: <br> <%= form.collection_select :course_niveau_id, CourseNiveau.order(:name),:id,:name, :prompt => "Velg nivå", class: "chosen-select" %>
+    </div>
+    <div class="col-md-6 dropdown-course">
+      Kategori: <br> <%= form.collection_select :course_category_id, CourseCategory.order(:name),:id,:name, :prompt => "Velg kategori", class: "chosen-select" %>
+    </div>
+    <div class="col-md-6 dropdown-course">
+      Sted: <br> <%= form.collection_select :course_place_id, CoursePlace.order(:name),:id,:name, :prompt => "Velg sted", class: "chosen-select" %>
+    </div>
+
+
+    <div class="col-md-6">
+      <div class="field">
+        Beskrivelse: <br> <%= form.text_area :description, placeholder: 'Beskrivelse' %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="field">
+        Pris: <br> <%= form.text_field :price, placeholder: 'Pris' %> NOK
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="actions">
+        <%= form.submit "Oprett kurs", class: 'blue-button' %>
+      </div>
+    </div>
+
+  </div>
+
+<% end %>
+
+</div>

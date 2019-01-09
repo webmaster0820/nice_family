@@ -1,0 +1,67 @@
+<div class="page-card">
+
+<h2>Redigér din konto</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="field">
+    <%= f.label :bilde %><br />
+    <%= f.file_field :profile_pic %>
+  </div>
+
+  <div class="field">
+    <%= f.label :fornavn %><br />
+    <%= f.text_field :first_name, autofocus: true, placeholder: "Fornavn" %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :etternavn %><br />
+    <%= f.text_field :last_name, placeholder: "Etternavn" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, placeholder: "Email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :telefon %><br />
+    <%= f.text_field :phone, placeholder: "Telefon" %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>For tiden venter bekreftelse på: <%= resource.unconfirmed_email %></div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :password %> <i>(la være tom hvis du ikke vil endre den)</i><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+    <% if @minimum_password_length %>
+      <br />
+      <em><%= @minimum_password_length %> tegn minimum</em>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :passord_bekreftelse %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :nåværende_passord %> <i>(vi trenger ditt nåværende passord for å bekrefte dine endringer)</i><br />
+    <%= f.password_field :current_password, autocomplete: "current-password" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Oppdater", class: 'buy-button' %>
+  </div>
+<% end %>
+
+<hr>
+
+<%= button_to "Slett konto", registration_path(resource_name), data: { confirm: "Er du sikker?" }, method: :delete, class: 'btn-danger-small' %>
+
+<%= link_to "Tilbake", :back %>
+
+</div>

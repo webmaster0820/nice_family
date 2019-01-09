@@ -1,0 +1,8 @@
+{
+  "name": "goldtime",
+  "private": true,
+  "dependencies": {
+    "micromodal": "^0.3.2",
+    "tether-drop": "^1.4.2"
+  }
+}

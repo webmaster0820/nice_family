@@ -1,0 +1,31 @@
+<%= form_with(model: grandparent, local: true) do |form| %>
+  <% if grandparent.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(grandparent.errors.count, "error") %> prohibited this grandparent from being saved:</h2>
+
+      <ul>
+      <% grandparent.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  Konto:<br>
+  <%= form.select "member_id", options_from_collection_for_select(Member.all.order('first_name ASC'), "id", "full_name",params[:member_id]), :prompt => "Velg konto", class: "chosen-select"if coach_signed_in? %><br><br>
+
+  <div class="field">
+    <%= form.label :fornavn %>
+    <%= form.text_field :first_name %>
+  </div><br>
+
+  <div class="field">
+    <%= form.label :etternavn %>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+  <%= link_to '← tilbake', kurv_sjekk_ut_path, style: 'font-weight:300;font-size: 22px;color:#c3c2c2 !important;font-style:italic;' %>
+<% end %>

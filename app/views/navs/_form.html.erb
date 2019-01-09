@@ -1,0 +1,66 @@
+<div class="page-card">
+<h3>Ny menylenke</h3>
+<br>
+<%= form_with(model: nav, local: true) do |form| %>
+  <% if nav.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(nav.errors.count, "error") %> prohibited this nav from being saved:</h2>
+
+      <ul>
+      <% nav.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-6">
+
+      <div class="field">
+        <%= form.label :title %><br>
+        <%= form.text_field :title %>
+      </div><br>
+
+      <div class="field">
+        <%= form.label :nummer %><br />
+        <%= form.label :number, "1", :value => "1"  %>
+        <%= form.radio_button :number, "1", :value => "1", :checked => true %>
+        <%= form.label :number, "2", :value => "2" %>
+        <%= form.radio_button :number, "2", :value => "2" %>
+        <%= form.label :number, "3", :value => "3" %>
+        <%= form.radio_button :number, "3", :value => "3" %>
+        <%= form.label :number, "4", :value => "4" %>
+        <%= form.radio_button :number, "4", :value => "4" %>
+        <%= form.label :number, "5", :value => "5" %>
+        <%= form.radio_button :number, "5", :value => "5" %>
+      </div><%= image_tag '/guide1.png', style: 'width: 100%' %><br><br>
+
+      <div class="field">
+        <%= form.label :side %><br>
+        <%= form.select :page_id, Page.all.map { |u| [u.title, u.id] }, { include_blank: true }, { class: 'chosen-select' } %>
+        <div class="text-muted" style="font-size: 12px">Bare velg side ELLER lenke. Ikke begge!</div><br>
+      </div><br>
+
+    </div>
+    <div class="col-md-6 dark-link">
+
+      <div class="field">
+        <%= form.label :link %><br>
+        <%= form.text_field :link %>
+      </div><br>
+      <strong>Oversigt over siderne:</strong><br>
+
+    </div>
+  </div>
+
+  <br>
+
+
+
+
+  <div class="actions">
+    <%= form.submit "Opprett", class: 'btn btn-dark' %>
+  </div>
+<% end %>
+</div>

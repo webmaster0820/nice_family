@@ -1,0 +1,142 @@
+<script>
+  $("#modal-window").html("<%= escape_javascript(render 'participations/new') %>");
+</script>
+
+<div id="modal-window" class="modal" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
+  <%= render 'participations/new' %>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <h2 style="padding-top;padding-left: 50px;">Rediger konto</h2>
+  </div>
+  <div class="col-md-6">
+    ID: <%= @member.id %>
+  </div>
+</div>
+<div class="edit-member">
+<div class="row">
+  <div class="col-md-6">
+    <%= form_for(@member, html: { method: :put }) do |f| %>
+
+      <div style="background: #f3f2f2;padding:20px;border-radius: 5px;">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <strong>Barn:</strong>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <%= link_to 'Opprett', nytt_barn_path, target: :_blank, class: 'blue-button', style: 'color: #fff! important;float:right' %>
+          </div>
+        </div>
+        <% if @children.any? %>
+          <% @children.each do |c| %>
+            <i class="fa fa-child"></i> <%= c.first_name %> <%= c.first_name %>, <%= c.age %> år. <%= link_to "Rediger", edit_child_path(c), style: 'color: #00394c !important;font-size:12px' %> <br>
+          <% end %>
+        <% else %>
+          <em>Ingen barn ennå</em>
+        <% end %>
+      </div><br>
+
+      <div style="background: #f3f2f2;padding:20px;border-radius: 5px;">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <strong>Besteforelder:</strong>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <%= link_to 'Opprett', legg_til_besteforeldre_path, target: :_blank, class: 'blue-button', style: 'color: #fff! important;float:right' %>
+          </div>
+        </div>
+
+        <% if @grandparents.any? %>
+          <% @grandparents.each do |g| %>
+            <%= g.first_name %> <%= g.first_name %> <%= link_to "Rediger", edit_grandparent_path(g), style: 'color: #00394c !important;font-size:12px' %> <br>
+          <% end %>
+        <% else %>
+          <em>Ingen besteforeldre</em>
+        <% end %>
+      </div>
+        <br><br>
+
+      <div class="row">
+        <div class="col-md-6">
+
+            <%= f.label :fornavn %><br />
+            <%= f.text_field :first_name, placeholder: "Fornavn" %>
+        </div>
+        <div class="col-md-6">
+            <%= f.label :etternavn %><br />
+            <%= f.text_field :last_name, placeholder: "Etternavn" %>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :telefon %><br />
+        <%= f.email_field :phone, placeholder: "Telefon" %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :passord %> <i>(la være tom hvis du ikke vil endre den)</i><br />
+        <%= f.password_field :password, autocomplete: "new-password" %>
+        <% if @minimum_password_length %>
+          <br />
+          <em><%= @minimum_password_length %> tegn minimum</em>
+        <% end %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :passord_bekreftelse %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= f.label :nåværende_passord %> <i>(Vi trenger ditt nåværende passord for å bekrefte endringene dine)</i><br />
+        <%= f.password_field :current_password, autocomplete: "current-password" %>
+      </div>
+
+      <br>
+
+      <%= f.submit "Oppdater konto", class: 'buy-button', style: 'float: right' %><br><br><br>
+    <% end %>
+  </div>
+  <div class="col-md-6" style="font-size: 14px;background: #f3f2f2;padding: 20px;border-radius: 5px;">
+    <div class="row"><div class="col-md-6"><strong style="font-size: 18px;">Registrerte kurs</strong></div><div class="col-md-6" style="float: right"><div class="danger"><%= link_to 'Tilføj deltakelse', new_member_participation_path(@member), {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'blue-button'} %>
+    </div></div></div>
+    <br><br>
+
+    <% @participations.each do |p| %>
+      <div class="hover-bg">
+        <%= link_to p.course.course_niveau.name, participation_path(p) if p.course.course_niveau %> <%= link_to p.course.course_category.name, participation_path(p) if p.course.course_category %><br><%= link_to p.course.course_place.name, participation_path(p) if p.course.course_place %><br><%= link_to p.course.course_day, participation_path(p) if p.course.day %><br>
+        <div class="danger" style="float:right">
+          <%= link_to "Slett deltakelse", participation_path(p),
+              data: {:confirm => 'Er du sikker?'}, method: :delete, class: 'btn-danger-small' %>
+        </div><br>
+      </div>
+      <hr style="border: 1px solid #c3c2c2">
+    <% end %>
+  </div>
+</div>
+
+<hr>
+
+<div class="danger">
+  <%= link_to "Slett konto", member_path(@member),
+            data: {:confirm => 'Er du sikker?'}, method: :delete, class: 'btn btn-danger' %>
+</div>
+
+<%= link_to "← Tilbake", :back %>
+
+</div>

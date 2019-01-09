@@ -1,0 +1,87 @@
+<div class="row" style="padding-top;padding-left: 50px;">
+  <div class="col-md-6">
+    <h2>Kurs</h2>
+  </div>
+  <div class="col-md-6">
+    <%= link_to "Nytt kurs", oversigt_path, class: 'large-button', style: 'float:right;color:#fff !important' %>
+  </div>
+</div>
+<hr>
+<div class="row edit_course">
+  <% @courses.each do |course| %>
+    <% if course.day.future? %>
+      <%= link_to edit_course_path(course) do %>
+        <div class="col-xs-6 col-sm-3" style="padding:5px">
+          <div class="content">
+            <div class="content-overlay"></div>
+            <div class="card content-image" style="background: #fff">
+              <%= link_to (image_tag (course.course_image.url(:product)), class: 'course-image'), edit_course_path(course) if course.course_image? %>
+              <div class="card-body">
+                <div style="margin: 0">
+                  <h5><%= course.course_category.name %> <%= course.course_niveau.name if course.course_niveau %> | <%= course.course_place.name if course.course_place %></h5>
+                </div>
+              </div>
+              <hr style="margin: 3px;border:1px solid #f3f2f2">
+              <div class="card-text" style="background: #fff;font-size:16px;"><%= number_to_currency(course.price, :unit => "NOK") if course.price %></div>
+              <hr style="margin: 3px;border:1px solid #f3f2f2">
+              <div style="font-size: 14px;padding:5px">
+                <span class="text-muted" style="padding: 3px">Dato:</span> <%= course.course_day if course.day %>
+                <hr style="margin: 3px;border:1px solid #f3f2f2">
+                <span class="text-muted" style="padding: 3px">Tid:</span> <%= course.time_from.strftime("%H:%M") if course.time_from %>-<%= course.time_to.strftime("%H:%M") if course.time_to %>
+                <hr style="margin: 3px;border:1px solid #f3f2f2">
+                <span class="text-muted" style="padding: 3px">Trener:</span> <%= course.coach.name if course.coach %>
+              </div>
+            </div>
+            <%= link_to edit_course_path(course) do %>
+              <div class="content-details fadeIn-top">
+                <h3>Rediger kurs</h3>
+              </div>
+            <% end %>
+            <span style='color: #1f9f1f'><%= 'Fullbooket!' if course.status == 'fullbooket' %></span>
+          </div>
+          <hr>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="row edit_course">
+  <% @courses.each do |course| %>
+    <% if course.day.past? %>
+      <div style="opacity: 0.4">
+        <%= link_to edit_course_path(course) do %>
+          <div class="col-xs-6 col-sm-3" style="padding:5px">
+            <div class="content">
+              <div class="content-overlay"></div>
+              <div class="card content-image" style="background: #fff">
+                <%= link_to (image_tag (course.course_image.url(:product)), class: 'course-image'), edit_course_path(course) if course.course_image? %>
+                <div class="card-body">
+                  <div class="row" style="margin: 0">
+                    <h5><strong><%= course.course_category.name %> <%= course.course_niveau.name if course.course_niveau %> | <%= course.course_place.name if course.course_place %></strong></h5>
+                  </div>
+                </div>
+                <hr style="margin: 3px;border:1px solid #f3f2f2">
+                <div class="card-text" style="background: #fff;font-size:16px;"><%= number_to_currency(course.price, :unit => "NOK") if course.price %></div>
+                <hr style="margin: 3px;border:1px solid #f3f2f2">
+                <div style="font-size: 14px;padding:5px">
+                  <span class="text-muted" style="padding: 3px">Dato:</span> <%= course.course_day if course.day %>
+                  <hr style="margin: 3px;border:1px solid #f3f2f2">
+                  <span class="text-muted" style="padding: 3px">Tid:</span> <%= course.time_from.strftime("%H:%M") if course.time_from %>-<%= course.time_to.strftime("%H:%M") if course.time_to %>
+                  <hr style="margin: 3px;border:1px solid #f3f2f2">
+                  <span class="text-muted" style="padding: 3px">Trener:</span> <%= course.coach.name if course.coach %>
+                </div>
+              </div>
+              <%= link_to edit_course_path(course) do %>
+                <div class="content-details fadeIn-top">
+                  <h3>Rediger kurs</h3>
+                </div>
+              <% end %>
+            </div>
+            <hr>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

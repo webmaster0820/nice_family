@@ -1,0 +1,25 @@
+<%= form_with(model: @besteforeldre, local: true) do |f| %>
+  <% if @besteforeldre.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@besteforeldre.errors.count, "error") %> prohibited this besteforeldre from being saved:</h2>
+
+      <ul>
+      <% @besteforeldre.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	<center>
+
+  <h2>Legg til besteforeldre</h2>
+
+  <%= f.text_field :first_name, placeholder: 'Besteforeldre Fornavn' %><br />
+  <%= f.text_field :last_name, placeholder: 'Besteforeldre Etternavn' %><br />
+
+  <%= link_to 'Hopp over', kurs_path, style: 'font-weight:300;font-size: 22px;color:#c3c2c2 !important;font-style:italic;' %>
+
+  <%= f.submit "Legg til besteforeldre", class: 'buy-button' %>
+
+  </center>
+<% end %>

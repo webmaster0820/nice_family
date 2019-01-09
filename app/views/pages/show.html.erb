@@ -1,0 +1,16 @@
+<div class="padding">
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong style="font-size: 30px"><%= @page.title %></strong>
+</p>
+
+<p>
+  <%= simple_format(@page.content) %><hr>
+</p>
+
+<%= link_to 'Redigér |', edit_page_path(@page) if current_coach %>
+<%= link_to 'Tilbake', pages_path %>
+
+</div>

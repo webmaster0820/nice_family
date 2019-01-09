@@ -1,0 +1,249 @@
+<center>
+	<h1>Rediger website</h1>
+</center>
+	<br>
+
+
+<div class="page-card">
+
+
+<div class="row">
+	<div class="col-md-6 col-sm-6">
+		<h3 style="margin: 0">Sider</h3>
+	</div>
+	<div class="col-md-6 col-sm-6">
+		<%= link_to "Opprett ny side", new_page_path, style: 'float:right', class: 'btn btn-primary' %>
+	</div>
+</div>
+
+<br>
+
+<table class="table table-hover">
+  <thead>
+    <tr style="font-size: 14px">
+      <th>Titel</th>
+      <th>Redigér/Slett</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+    <tbody>
+      <% @pages.each do |page| %>
+        <tr style="font-size:14px !important;">
+          <td><%= page.title if page.title %></td>
+          <td>
+          	<%= link_to '<i class="fa fa-cogs" aria-hidden="true"></i> Redigér'.html_safe, edit_page_path(page) %> / <%= link_to "Slett", page_path(page), data: {:confirm => 'Er du sikker?'}, method: :delete, style: 'color: #d9534f !important' %></td>
+        </tr>
+        </div>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="page-card">
+
+
+<div class="row">
+	<div class="col-md-6 col-sm-6">
+		<h3 style="margin: 0">Meny lenker</h3>
+	</div>
+	<div class="col-md-6 col-sm-6">
+		<%= link_to "Opprett ny meny lenke", new_nav_path, style: 'float:right', class: 'btn btn-primary' %>
+	</div>
+</div>
+
+<br>
+
+<table class="table table-hover">
+  <thead>
+    <tr style="font-size: 14px">
+      <th>Titel</th>
+      <th>Side</th>
+      <th>Redigér/Slett</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+    <tbody>
+      <% @navs.each do |nav| %>
+        <tr style="font-size:14px !important;">
+          <td><%= nav.title if nav.title %></td>
+          <td>
+          	<% if nav.link.present? and nav.page.present? %>
+	          	<div class="btn-danger-small">!</div>
+          	<% end %>
+          	<%= nav.page.title if nav.page.present? %><%= nav.link if nav.link.present? %></td>
+          <td>
+          	<div style="cursor:pointer;display: inline"" onclick="myFunction('nav<%= nav.id %>');">
+          		<a class="fa fa-cogs" aria-hidden="true"></a>
+          		<a> Redigér</a>
+          	</div> / <%= link_to "Slett", nav_path(nav), data: {:confirm => 'Er du sikker?'}, method: :delete, style: 'color: #d9534f !important' %></td>
+        </tr>
+        <div id="nav<%= nav.id %>" style="display: none;">
+          <div class="small-form">
+						<h3>Redigér menylenke</h3>
+						<br>
+						<%= form_for(nav) do |form| %>
+						  <% if @nav.errors.any? %>
+						    <div id="error_explanation">
+						      <h2><%= pluralize(@nav.errors.count, "error") %> prohibited this nav from being saved:</h2>
+
+						      <ul>
+						      <% @nav.errors.full_messages.each do |message| %>
+						        <li><%= message %></li>
+						      <% end %>
+						      </ul>
+						    </div>
+						  <% end %>
+
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+							  <div class="field">
+							    <%= form.label :title %><br>
+							    <%= form.text_field :title, class: 'full-width' %>
+							  </div>
+							</div>
+							<div class="col-md-6 col-sm-6">
+							  <div class="field">
+							    <%= form.label :nummer %><br />
+							    <%= form.label :number, "1", :value => "1"  %>
+							    <%= form.radio_button :number, "1", :value => "1", :checked => true %>
+							    <%= form.label :number, "2", :value => "2" %>
+							    <%= form.radio_button :number, "2", :value => "2" %>
+							    <%= form.label :number, "3", :value => "3" %>
+							    <%= form.radio_button :number, "3", :value => "3" %>
+							  </div>
+							</div>
+						</div>
+						<br><br>
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+							  <div class="field">
+							    <%= form.label :side %><br>
+							    <%= form.select :page_id, Page.all.map { |u| [u.title, u.id] }, { include_blank: true }, { class: 'chosen-select' } %><br>
+							  </div><br>
+							</div>
+							<div class="col-md-6 col-sm-6">
+							  <div class="field">
+							    <%= form.label :link %><br>
+							    <%= form.text_field :link, class: 'full-width' %>
+							  </div><div class="text-muted" style="font-size: 12px">Bare velg side ELLER lenke. Ikke begge!</div>
+							</div>
+						</div>
+
+						  <div class="actions">
+						    <%= form.submit "Gem", class: 'btn btn-dark' %>
+						  </div>
+						<% end %>
+					</div>
+        </div>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="page-card">
+
+<div class="row">
+	<div class="col-md-6 col-sm-6">
+		<h3 style="margin: 0">Sub lenker</h3>
+	</div>
+	<div class="col-md-6 col-sm-6">
+		<%= link_to "Opprett ny sub lenke", new_sub_nav_path, style: 'float:right', class: 'btn btn-primary' %>
+	</div>
+</div>
+
+<br>
+
+<table class="table table-hover">
+  <thead>
+    <tr style="font-size: 14px">
+      <th>Titel</th>
+      <th>Meny</th>
+      <th>Side</th>
+      <th>Redigér/Slett</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+    <tbody>
+      <% @sub_navs.each do |sub_nav| %>
+        <tr style="font-size:14px !important;">
+          <td><%= sub_nav.title if sub_nav.title %></td>
+          <td><%= sub_nav.nav.title if sub_nav.nav %></td>
+          <td>
+          	<% if sub_nav.link.present? and sub_nav.page.present? %>
+	          	<div class="btn-danger-small">!</div>
+          	<% end %>
+          	<%= sub_nav.page.title if sub_nav.page.present? %><%= sub_nav.link if sub_nav.link.present? %></td>
+          <td>
+          	<div style="cursor:pointer;display: inline" onclick="myFunction('sub<%= sub_nav.id %>');">
+          		<a class="fa fa-cogs" aria-hidden="true"></a>
+          		<a> Redigér</a>
+          	</div> / <%= link_to "Slett", sub_nav_path(sub_nav), data: {:confirm => 'Er du sikker?'}, method: :delete, style: 'color: #d9534f !important' %></td>
+        </tr>
+        <div id="sub<%= sub_nav.id %>" style="display: none;">
+          <div class="small-form">
+					<h3>Redigér under menu lenke</h3>
+					<br>
+					<%= form_for(@sub_nav) do |form| %>
+					  <% if @sub_nav.errors.any? %>
+					    <div id="error_explanation">
+					      <h2><%= pluralize(@sub_nav.errors.count, "error") %> prohibited this sub_nav from being saved:</h2>
+
+					      <ul>
+					      <% @sub_nav.errors.full_messages.each do |message| %>
+					        <li><%= message %></li>
+					      <% end %>
+					      </ul>
+					    </div>
+					  <% end %>
+
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+							  <div class="field">
+							    <%= form.label :titel %><br>
+							    <%= form.text_field :title, class: 'full-width' %>
+							  </div>
+							</div>
+							<div class="col-md-6 col-sm-6">
+							  <div class="field">
+							    <%= form.label :nummer %><br />
+							    <%= form.label :number, "1", :value => "1"  %>
+							    <%= form.radio_button :number, "1", :value => "1", :checked => true %>
+							    <%= form.label :number, "2", :value => "2" %>
+							    <%= form.radio_button :number, "2", :value => "2" %>
+							    <%= form.label :number, "3", :value => "3" %>
+							    <%= form.radio_button :number, "3", :value => "3" %>
+							  </div>
+							</div>
+						</div><br><br>
+
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+							  <div class="field">
+							    <%= form.label :menyforeldrelink %><br>
+							    <%= form.select :nav_id, Nav.all.map { |u| [u.title, u.id] }, { include_blank: true }, { class: 'chosen-select' } %>
+							  </div>
+							</div>
+							<div class="col-md-6 col-sm-6">
+							    <%= form.label :side_for_å_lenke_til %><br>
+							    <%= form.select :page_id, Page.all.map { |u| [u.title, u.id] }, { include_blank: true }, { class: 'chosen-select' } %>
+
+							  <div class="field">
+							    <%= form.label :link %><br>
+							    <%= form.text_field :link, class: 'full-width' %>
+							  </div><div class="text-muted" style="font-size: 12px">Bare velg side ELLER lenke. Ikke begge!</div><br>
+
+							</div><br>
+						</div>
+
+					  <div class="actions">
+					    <%= form.submit "Gem", class: 'btn btn-dark' %>
+					  </div>
+					<% end %>
+
+					</div>
+					</div>
+        </div>
+      <% end %>
+    </tbody>
+  </table>
+</div>

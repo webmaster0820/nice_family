@@ -1,0 +1,156 @@
+<script>
+  $("#modal-window").html("<%= escape_javascript(render 'members/modal') %>");
+</script>
+
+<div id="modal-window" class="modal" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
+  <%= render 'members/modal' %>
+</div>
+
+
+<header>
+<div style="padding: 50px">
+<h1>Kurs</h1>
+
+<div class="dropdown-course row">
+
+<%= form_tag('/kurs',:method=>:get) do %>                        
+
+  <div class="col-sm-3">
+
+  <%#= select_tag "id", options_from_collection_for_select(Course.all, "id", "course_name", \
+                  {disabled: lambda {|c| c.fullbooket? }}), multiple: true, :prompt => "Kurs", class: "chosen-select", onchange: 'this.form.submit();' %>
+    <%= select_tag "course_category_id", options_from_collection_for_select(CourseCategory.all, "id", "name",params[:course_category_id]), :prompt => "Kurs", class: "chosen-select", onchange: 'this.form.submit();' %>
+
+  </div>
+
+
+  <div class="col-sm-3">
+
+    <%#= grouped_options = [['Europe',["London, UK", "Stockholm, Sweden"]], ['USA', ["San Francisco, USA", "Mountain View"]]] %>
+    <%#= select_tag :course_place_id, grouped_options_for_select(grouped_options) %>
+
+    <%#= select_tag "course_place_id", grouped_options_for_select(grouped_options), :prompt => "Sted", class: "chosen-select", onchange: 'this.form.submit();' %>
+    <%= select_tag "course_place_id", options_from_collection_for_select(CoursePlace.all, "id", "name",params[:course_place_id]), :prompt => "Sted", class: "chosen-select", onchange: 'this.form.submit();' %>
+  </div>
+
+  <div class="col-sm-3">
+    <%= select_tag "day", options_from_collection_for_select(Course.all.uniq { |h| h[:day].future? }, "day", "course_day"), :prompt => "Dag", class: "chosen-select", onchange: 'this.form.submit();' %>
+  </div>
+
+  <div class="col-sm-3">
+    <div class="reset-button">
+      <%= link_to kurs_path do %>
+      <div class="reset-button-inner">Alle kurs</div>
+      <% end %>
+    </div>
+  </div>
+
+<% end %>
+</div>
+</header>
+
+
+
+
+<div class="row course-index">
+  <% @courses.each do |course| %>
+    <% unless course.day.past? %>
+      <ul style="list-style: none;cursor:pointer" onclick="myFunction('<%= course.id %>');">
+        <li>
+          <div class="row course-card">
+            <div class="col-sm-3">
+              <%= link_to (image_tag (course.course_category.course_image.url(:product)), class: 'course-image'), course_path(course) if course.course_category.course_image? %>
+            </div>
+            <div class="col-sm-7">
+              <div class="card-wrapper">
+                <h4 class="card-title" style="line-height: 1em;"><%= course.course_category.name %> <%= course.course_niveau.name if course.course_niveau %> <span style="color: #ff5219"><%= 'Fullbooket!' if course.status == 'fullbooket' %></span></h4>
+                <p class="card-date"><%= I18n.localize(course.day, format: "%A, %b %d").capitalize %><br>
+                  <%= course.course_place.name %></p>
+              </div>
+            </div>
+            <div class="col-sm-2 desktop">
+              <div class="card-wrapper">
+                <div onclick="replaceword(this,'Skjul','Vis');" style="cursor:pointer;padding-top: 20px;font-size: 18px">Vis  <i class="arrow down"></i></div>
+              </div>
+            </div>
+            <div class="mobile">
+              <center>
+              <div onclick="replaceword(this,'Skjul','Vis');" style="cursor:pointer;background:rgba(243, 242, 242, 0.1);width:50%;margin-top:-20px;margin-bottom:20px;border-radius: 20px;padding:20px;font-size:18px;">Vis  <i class="arrow down"></i></div>
+            </center>
+            </div>
+          </div>
+        </li>
+
+        <div id="<%= course.id %>" style="display: none">
+          <div class="desktop">
+            <li>
+            <div class="row padding-small">
+              <div class="col-sm-4">
+                <br>
+                <h4 class="card-title-sub"><%= course.course_place.name if course.course_place %></h4>
+                <div class="card-sub">
+                  <p style="font-weight: 700;font-size: 28px;" ><%= course.time_from.strftime("%H:%M") if course.time_from %>-<%= course.time_to.strftime("%H:%M") if course.time_to %></p><%= I18n.localize(course.day, format: "%A, %b %d").capitalize %>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="card-sub" style="font-size: 16px;padding-top:30px">
+                  <% if course.status == "ledig" %><%= course.spots_left %> seter igjen<br><% end %>
+                  Trener: <%= link_to course.coach.name, coach_path(course) if course.coach %><br>
+                  Pris:   <%= number_to_currency(course.price, :unit => "NOK") if course.price %>
+                </div>
+              </div>
+                  
+              <div class="col-sm-4">
+                <div style="padding-top:40px">
+
+                  <%= form_tag order_items_path do %>
+                    <%= hidden_field_tag :course_id, course.id %>
+                    <%#= hidden_field :quantity, 1 %>
+                    <%= number_field_tag :quantity, 1, style: 'display:none' %>
+
+                    <% if course.status != 'fullbooket' %>
+                      <%= link_to 'Opprett konto for å delta', new_member_registration_path, {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'buy-button'} if !member_signed_in? %>
+                      <%= submit_tag "Delta", class: 'buy-button' if member_signed_in? %>
+                    <% elsif %>
+                      <span style="color: #ff5219">Kurset er fullbooket!</span>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            </li>
+          </div>
+          <div class="mobile">
+            <h4 class="card-title-sub"><%= course.course_place.name if course.course_place %></h4>
+                <div class="card-sub">
+                  <p style="font-weight: 700;font-size: 28px;" ><%= course.time_from.strftime("%H:%M") if course.time_from %>-<%= course.time_to.strftime("%H:%M") if course.time_to %></p><%= I18n.localize(course.day, format: "%A, %b %d").capitalize %><br><%= course.course_place.name %>
+                </div>
+                <div class="card-sub" style="font-size: 16px">
+                  <% if course.status == "ledig" %><%= course.spots_left %> seter igjen<br><% end %>
+                  Trener: <%= link_to course.coach.name, coach_path(course) if course.coach %><br>
+                  <%= number_to_currency(course.price, :unit => "NOK") if course.price %>
+                </div>
+                <br>
+                <%= form_tag order_items_path do %>
+                  <%#= hidden_field :quantity, 1 %>
+                  <%= number_field_tag :quantity, 1, style: 'display:none' %>
+
+                  <% if course.status != 'fullbooket' %>
+                    <%= link_to 'Opprett konto for å delta', new_member_registration_path, {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'buy-button'} if !member_signed_in? %>
+                    <%= submit_tag "Delta", class: 'buy-button' if member_signed_in? %>
+                  <% elsif %>
+                    <span style="color: #ff5219">Kurset er fullbooket!</span>
+                  <% end %>
+                <% end %>
+                <br>
+          </div>
+        </div>
+      </ul>
+    <% end %>
+  <% end %>
+</div>
+  <div class="paginate" style="font-size: 16px">
+    <%= paginate @courses %>
+</div>
+
+</div>

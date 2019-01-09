@@ -1,0 +1,58 @@
+<h2 style="padding-top;padding-left: 50px;">Kurs</h2>
+
+<div class="page-card">
+
+<div class="row" style="margin-bottom: 20px;">
+  <div class="col-md-4 col-sm-4">
+    <% if @course.course_category.course_image? %>
+    <%= image_tag (@course.course_category.course_image.url(:product)), class: 'course-image' if @course.course_image %>
+    <% end %><br><br>
+
+    <%= link_to 'Rediger', edit_course_path(@course), style: 'color: #1c1c1c !important' %> |
+    <%= link_to 'Kurs oversigt', edit_courses_path, style: 'color: #1c1c1c !important' %>
+  </div>
+  <div class="col-md-4 col-sm-4">
+
+    <p>
+      <strong>Dato:</strong>
+      <%= @course.course_day if @course.day %>
+    </p>
+
+    <p>
+      <strong>Tid:</strong>
+      <%= @course.time_from.strftime('%H:%M') if @course.time_from %> - <%= @course.time_to.strftime('%H:%M') if @course.time_to %>
+    </p>
+
+    <p>
+      <strong>Pris:</strong>
+      <%= number_to_currency(@course.price) if @course.price %>
+    </p>
+
+    <p>
+      <strong>Trener:</strong>
+      <%= @course.coach.first_name if @course.coach %> <%= @course.coach.last_name if @course.coach %>
+    </p>
+
+    <p>
+      <strong>Kurs nivå:</strong>
+      <%= @course.course_niveau.name if @course.course_niveau %>
+    </p>
+
+    <p>
+      <strong>Sted:</strong>
+      <%= @course.course_place.name if @course.course_place %>
+    </p>
+
+    <p>
+      <strong>Course category:</strong>
+      <%= @course.course_category.name if @course.course_category %>
+    </p>
+
+    <p>
+      <strong>Beskrivelse:</strong>
+      <%= simple_format(@course.description) if @course.description %>
+    </p>
+
+  </div>
+</div>
+</div>

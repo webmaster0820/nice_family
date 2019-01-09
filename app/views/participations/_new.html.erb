@@ -1,0 +1,19 @@
+<div class="page-card">
+
+<%= form_with(model: @participation, local: true) do |form| %>
+  
+  <div class="field">
+    Legg kurs til bruker <em><%= @member.first_name %> <%= @member.last_name %></em>
+  </div><br>
+
+  Kurs: <br> <%= form.select :course_id, Course.all.map { |u| ["#{u.course_category.name}, #{u.course_place.name}, #{u.day.strftime('%A | %b %d')}", u.id] }, { include_blank: true }, { class: 'chosen-select' } %>
+
+  <br><br>
+
+
+  <%= form.hidden_field :member_id, value: @member.id %>
+  <div class="actions">
+    <%= form.submit "Lag deltakelse", class: 'blue-button' %>
+  </div>
+<% end %>
+</div>

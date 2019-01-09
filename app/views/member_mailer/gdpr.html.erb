@@ -1,0 +1,34 @@
+Hei!
+
+<br><br>
+
+Vi har samlet følgende information:
+
+<br><br>
+
+<strong>Navn:</strong> <%= @member.first_name %> <%= @member.last_name %> 
+
+<br><br>
+
+<strong>Email:</strong> <%= @member.email %>
+
+<br><br>
+
+<% if @member.phone %><strong>Telefon:</strong> <%= @member.phone %><% end %>
+
+<br><br>
+
+<% if @member.children.any? %>
+	<strong>Dine barn:</strong><br><br>
+	<% @member.children.each do |c| %>
+	Navn: <%= c.first_name %> <%= c.last_name %><br>
+	Bursdag: <%= c.birthdate %><br><br>
+	<% end %>
+<% end %>
+
+<% if @grandparents.any? %>
+	Besteforeldre:<br><br>
+	<% @grandparents.each do |b| %>
+	Navn: <%= b.first_name %> <%= b.last_name %><br><br>
+	<% end %>
+<% end %>

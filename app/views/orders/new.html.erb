@@ -1,0 +1,87 @@
+<div id="notice"><%= notice %></div
+<div class="order-page">
+	<h2>Sjekk utt</h2>
+
+	<hr>
+	<div class="text-muted">
+	Dine valg:<br><br>
+
+	<td colspan="4" align="right">
+		<% @items.each do |i| %>
+			<%= i.course.course_category.name if i.course.course_category %>
+			<%= i.course.course_niveau.name if i.course.course_niveau %>
+			<%= i.course.course_place.name if i.course.course_place %>
+		<% end %>
+
+		<br><br>
+		<u>Total: <%= number_to_currency current_cart.sub_total %></u>
+	</td><br><br>
+	</div>
+
+	<hr>
+
+	<%= form_for @order, url: checkout_path do |f| %>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<%= f.label :ditt_fornavn %><br>
+				<%= f.text_field :first_name, :class => 'textField' , value: current_member.first_name %>
+			</div><br>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<%= f.label :ditt_etternavn %><br>
+				<%= f.text_field :last_name, :class => 'textField' , value: current_member.last_name %>
+			</div><br>
+		</div>
+		<div class="form-group">
+			<%= f.label :email %><br>
+			<%= f.text_field :email, :class => 'textField' , value: current_member.email %>
+		</div>
+	</div><br>
+	<% if current_member.children.any? %>
+	<hr>
+		Velg barn:<br><br>
+
+			<% current_member.children.each do |child| %>
+				<div class="row">
+					<div class="col-md-1 col-sm-1 col-xs-1">
+					  <%= check_box_tag "child_ids[]", child.id, {checked: true} %>
+					</div>
+					<div class="col-md-11 col-sm-11 col-xs-11">
+					  <%= child.first_name %> <%= child.last_name %>
+					</div>
+				</div>
+			<% end %><br>
+
+			<div style="font-size: 13px;color:#777"> Barnet vises ikke? <span style="color:#666"><%= link_to 'Legg til en', barn_path, target: :blank %></span> (og refresh siden).</div><br>
+		<% end %>
+
+		<hr>
+
+	  <em style="cursor:pointer;font-size:16px;color:#f3f2f2" onclick="myFunction('vis');"></i> Henter en bedsteforeldre?</em><br><br>
+	  <div style="display: none" id="vis">
+	  	<% if current_member.grandparents.any? %>
+		  	<%= select_tag "grandparent_id", options_from_collection_for_select(Grandparent.all.where(member_id: current_member.id), "id", "first_name",params[:grandparent_id]), :prompt => "Velg besteforelder", class: "chosen-select" %><br>
+			  <div style="font-size: 13px;color:#777">Skal en <span style="color:#666"><%= link_to 'besteforelder', besteforeldre_path %></span> hente barnet?.
+			  </div>
+	  	<% else %>
+			  <div style="font-size: 16px;color:#777"> Først <span style="color:#666"><%= link_to 'legg til besteforelder', besteforeldre_path, style: 'color: #ff3f00 !important' %></span>.
+			  </div>
+	  	<% end %>
+	  </div>
+
+	  <%= f.hidden_field :sub_total, :value => current_cart.sub_total %>
+	  <%= f.hidden_field :member_id, :value => current_member.id %>
+
+		<% if current_member.children.any? %>
+			<%= f.submit 'Sjekk ut' %>
+		<% else %>
+		<br>
+			<%= link_to 'Legg til barn for å bestille', legg_til_barn_path, target: :blank, class: 'greyed-out-button' %>
+			<div style="font-size: 13px;color:#777"> (og refresh siden).</div><br><br>
+		<% end %>
+		<%= link_to '← Tilbake', kurv_path %>
+
+	<% end %>
+</div>

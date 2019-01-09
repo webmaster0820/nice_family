@@ -1,0 +1,38 @@
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<div class="signup">
+<%= form_for(@member) do |f| %>
+  <div class="main-w3layouts wrapper">
+    <div class="main-agileinfo">
+      <div class="agileits-top">
+        <form action="#" method="post">
+
+          <div id="children">
+            <%= f.fields_for :children do |children| %>
+            <%= render 'child_fields', f: children %>
+            <% end %>
+          </div>
+
+
+          <div class="links">
+            <span style="font-size:14px;background:#bbb;padding:14px;padding-left:50px;padding-right:50px;border-radius:5px;width:100%;"><%= link_to_add_association 'Legg til et barn', f, :children %></span>
+          </div>
+          <%= f.submit "Opprett konto", class: 'buy-button' %>
+
+        </form>
+      </div>
+    </div>
+    <ul class="colorlib-bubbles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+<% end %>
+</div>

@@ -1,0 +1,182 @@
+<div class="wrapper">
+  <!-- Sidebar Holder -->
+  <% if coach_signed_in? %>
+    <nav id="sidebar">
+        <div class="sidebar-header">
+          <%= link_to (image_tag '/logo_trans.png'), root_path %>
+        </div>
+
+        <ul class="list-unstyled components">
+            <p><em><%= "#Konto: {current_coach.name}" if current_coach.name %></em></p>
+            <li>
+              <i class="fa fa-calendar" aria-hidden="true"></i> <%= link_to 'Kurs', edit_courses_path %>
+            </li>
+            <li>
+              <i class="fa fa-users" aria-hidden="true"></i> <%= link_to 'Deltakere', deltakere_path %>
+            </li>
+            <li>
+              <i class="fa fa-user-circle" aria-hidden="true"></i> <%= link_to 'Kontoer', kontoer_path %>
+            </li>
+            <li>
+              <i class="fa fa-envelope" aria-hidden="true"></i> <%= link_to 'Emails', emails_path %>
+            </li>
+            <li>
+              <i class="fa fa-pencil" aria-hidden="true"></i> <%= link_to 'Redigér website', rediger_path %>
+            </li>
+        </ul>
+
+    </nav>
+  <% end %>
+</div>
+<div class="bg-header">
+
+  <% if !coach_signed_in? %>
+    <div id="content_home">
+      <% if member_signed_in? %>
+        <div style="float:right;font-size: 12px;padding-right:13px;">
+          Hei <%= current_member.first_name %>!
+        </div><br>
+      <% end %>
+          
+      <nav class="navbar-transparent navbar-default-transparent">
+        <div class="container-fluid">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <%= link_to (image_tag '/logo_transp.png'), root_path if !coach_signed_in? %>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right" style="padding-top: 30px;">
+              <% @navs.each do |nav| %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"><% if nav.page_id.present? %><%= link_to nav.title, page_path(nav) %><% elsif nav.link.present? %><%= link_to nav.title, nav.link %><% else %><%= nav.title %><% end %><span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <% @sub_navs.each do |sub_nav| %>
+                      <% if sub_nav.nav_id == nav.id %>
+                        <% if sub_nav.page_id.present? %>
+                          <%= link_to "<li>#{sub_nav.title}</li>".html_safe, page_path(sub_nav) %>
+                        <% elsif sub_nav.link.present? %>
+                          <%= link_to "<li>#{sub_nav.title}</li>".html_safe, sub_nav.link %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                    <hr style="border: 1px solid #ff3f00 !important;margin:0;">
+                  </ul>
+                </li>
+              <% end %>
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">Registrer deg<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <%= link_to "<li>Logg inn</li>".html_safe, logg_in_path if !member_signed_in? %>
+                  <%#= link_to "<li>Din konto</li>".html_safe, konto_path(current_member) if  member_signed_in? %>
+                  <%= link_to "<li>Din konto</li>".html_safe, member_path(current_member) if  member_signed_in? %>
+                  <%= link_to "<li>Logg ut</li>".html_safe, destroy_member_session_path, method: :delete if member_signed_in? %>
+                </ul>
+              </li>
+              <li><a href="#">OM OSS</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">GDPR - BE OM PERSONLIG DATA <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <%= link_to "<li>GDPR</li>".html_safe, member_gdpr_path(current_member) if member_signed_in? %>
+                  <h2 style="font-size: 0.9em;"><%= "<li>Logg inn for GDPR data</li>".html_safe if !member_signed_in? %></h2>
+                  <%= link_to "<li>Personvern</li>".html_safe, personvern_path %>
+                  <%= link_to "<li>Cookies</li>".html_safe, cookies_path %>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">BESTILL KURSPLASS <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <%= link_to "<li>Finn Kurs</li>".html_safe, kurs_path %>
+                  <%= link_to "<li>Logg inn</li>".html_safe, logg_in_path if !member_signed_in? %>
+                  <%= link_to "<li>Din konto</li>".html_safe, member_path(current_member) if  member_signed_in? %>
+                  <%= link_to "<li>Logg ut</li>".html_safe, destroy_member_session_path, method: :delete if member_signed_in? %>
+                </ul>
+              </li>
+              <li>
+                <%= link_to kurv_path do %>
+                <i class="fa fa-shopping-cart" style="font-size: 18px"></i>
+                </p>
+                <% end %>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+
+    </div>
+  <% end %>
+</div>
+<div class="wrapper">
+  <div class="container">
+    <%= yield %>
+  </div>
+  <% if coach_signed_in? %>
+    <div id="content" class="coach">
+      <nav class="navbar-transparent navbar-default-transparent">
+        <div class="container-fluid" style="padding: 10px;background: #f3f2f2;color:#000 !important">
+          
+          <div class="col-xs-6 col-md-2">
+            <div class="navbar-header">
+                <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                    <i class="glyphicon glyphicon-align-left"></i>
+                </button>
+            </div>
+          </div>
+
+          <div class="col-xs-6 col-md-6">
+            <form class="navbar-form navbar-left collapse navbar-collapse">
+              <%= form_with url: search_path, local: true, method: :get, html: { class: 'form-group' } do |form| %>
+                <%= form.text_field :q, placeholder: "Søk", data: { behavior: 'autocomplete' }, class: 'search-form form-control' %>
+              <% end %>
+            </form>
+          </div>
+
+          <div class="col-xs-6 col-md-4">
+            <%= link_to "Logg ut", destroy_coach_session_path, method: :delete, class: 'top-navbar', style: 'float:right;padding-top:13px;color:#000 !important' %>
+          </div>
+
+          <div style="float:right">
+              <%= link_to "Coach login", new_coach_session_path, class: 'top-navbar' if !coach_signed_in? and !member_signed_in? %>
+              <br>
+            <%= link_to "Kurs", kurs_path if !coach_signed_in? %>
+            <%= link_to "Logg inn", logg_in_path if !member_signed_in? and !coach_signed_in? %>
+            <%#= link_to "Konto", rediger_konto_path if member_signed_in? and !coach_signed_in? %>
+            <%= link_to "Logg ut", destroy_member_session_path, method: :delete if member_signed_in? and !coach_signed_in? %>
+            <%= link_to pluralize(current_cart.items_count, 'kurs'), kurv_path if !coach_signed_in? %>
+          </div>
+            
+        </div>
+      </nav>
+
+
+      <div class="container">
+          <p id="notice"><%= notice%></p>
+        <%= yield %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+
+
+
+<!-- jQuery CDN -->
+ <!-- Bootstrap Js CDN -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+ <script type="text/javascript">
+     $(document).ready(function () {
+         $('#sidebarCollapse').on('click', function () {
+             $('#sidebar').toggleClass('active');
+         });
+     });
+ </script>

@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<div class="bg-header cover-full" style="background-image: url(jente-som-svømmer-under-vann.jpg);color:#aaa9a9;padding-top:100px;">
+  <center>
+    <div class="row" style="padding: 50px">
+      <% @course_categories.each do |c| %>
+        <div class="col-xs-6 col-sm-3">
+          <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+            <div class="flipper">
+              <div class="front">
+                <div class="place">
+                  <h2><%= c.name %></h2>
+                  <br>
+                  <span style="font-size: 16px"><% if c.age_from %>Fra <%= c.age_from if c.age_from %> - <%= c.age_to if c.age_to %> år.<% end %></span>
+                </div>
+              </div>
+              <div class="back">
+                <div class="place" style="background: #000 !important;border: 1px solid #323232">
+                  <h2 style="color:#ff3f00">LES MER OM KURSENE</h2>
+                  <br>
+                  <%= link_to "#{c.name}", c, class: 'main-button padding' %>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+        <hr style="border:none;padding:5px">
+        </div>
+      <% end %>
+    </div>
+  </center>
+</div>

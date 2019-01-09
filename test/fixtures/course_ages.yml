@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  age_from: 1
+  age_to: 1
+
+two:
+  age_from: 1
+  age_to: 1

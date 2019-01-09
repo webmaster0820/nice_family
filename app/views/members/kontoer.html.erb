@@ -1,0 +1,111 @@
+<h2 style="padding-top;padding-left: 50px;">Kontoer</h2>
+<div class="page-card">
+
+  <div style="background: #f3f2f2; padding: 20px;margin-bottom: 20px;border-radius: 5px;border: 1px;">
+    <div style="font-size: 16px;font-weight: 500;cursor:pointer"></div>
+    <br>
+    <table class="table table-hover">
+    <thead>
+      <tr style="font-size: 14px">
+        <th>ID</th>
+        <th>Navn</th>
+        <th>Email</th>
+        <th>Tlf</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+      <tbody>
+        <% @members.each do |p| %>
+          <tr style="color:#000 !important;">
+            <td style="padding-right: 10px"><%= p.id %></td>   
+            <td><%= link_to p.first_name, edit_member_path(p) %> <%= link_to p.last_name, edit_member_path(p) %></td>   
+            <td><%= link_to p.email, edit_member_path(p) %></td>
+            <td><%= link_to p.phone, edit_member_path(p) if p.phone %></td>
+            <td><div style="cursor:pointer;float:right" onclick="myFunction('<%= p.id %>');"><a class="fa fa-cogs" aria-hidden="true"></a><a style="font-size: 10px;"> Rask redigering</a></div></td>
+          </tr>
+          <div id="<%= p.id %>" style="display: none;">
+            <hr>
+            <%= form_for(p) do |m| %>
+              <div class="small-form">
+                <p>Redigér deltaker ID <%= p.id%></p>
+                <div class="row">
+                  <div class="col-md-4 col-sm-4">
+                    <%= m.label :fornavn %>
+                    <%= m.text_field :first_name, class: 'full-width' %>
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <%= m.label :etternavn %>
+                    <%= m.text_field :last_name, class: 'full-width' %>
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <%= m.label :bilde %>
+                    <%= m.file_field :profile_pic %>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-sm-4">
+                    <%= m.label :email %>
+                    <%= m.text_field :email, class: 'full-width' %>
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <%= m.label :telefon %>
+                    <%= m.text_field :phone, class: 'full-width' %>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-md-6 col-sm-6">
+                    <%= link_to "Slett deltakelse", participation_path(p), data: {:confirm => 'Er du sikker?'}, method: :delete, class: 'btn btn-red' %>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <%= m.submit "Gem endringer", class: 'btn btn-dark' %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </tbody>
+    </table>
+
+  <div class="paginate" style="font-size: 16px;color: #fff;background: #00394c; padding-left: 5px;padding-right: 5px;border-radius: 5px;">
+    <%= paginate @members %>
+  </div>
+  </div>
+
+
+
+<div class="row">
+  <% @members.each do |member| %>
+    <%= link_to edit_member_registration_path(member) do %>
+      <div class="col-md-4 col-sm-6">
+        <div class="content">
+          <div class="content-overlay"></div>
+
+          <div class="card content-image">
+
+            <%#= image_tag member.profile_pic.url(:profile_pic), class: 'course-image' if member.profile_pic %>
+            <div class="card-body">
+              <div class="row" style="margin: 0">
+                  <h4 class="card-title row"><%= member.first_name if member.first_name %> <%= member.last_name if member.last_name %></h4>
+              </div>
+            </div>
+            <hr style="margin: 3px;border:1px solid #f3f2f2">
+              <div style="font-size: 14px;padding:5px">
+                <span class="text-muted" style="padding: 3px">Email:</span>
+              <%= member.email %>
+              </div>
+              <%#li class="list-group-item"><span class="text-muted">Kurs:</span> <%= member.kurs.name if member.kurs %>
+            <%= link_to edit_member_registration_path(member) do %>
+              <div class="content-details fadeIn-top">
+                <h3>Edit deltaker</h3>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+</div>

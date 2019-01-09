@@ -1,0 +1,52 @@
+<div class="page-card">
+<h3>Redigér under menu lenke</h3>
+<br>
+<%= form_for(@sub_nav) do |form| %>
+  <% if @sub_nav.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sub_nav.errors.count, "error") %> prohibited this sub_nav from being saved:</h2>
+
+      <ul>
+      <% @sub_nav.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :titel %><br>
+    <%= form.text_field :title %>
+  </div><br>
+
+  <div class="field">
+    <%= form.label :nummer %><br />
+    <%= form.label :number, "1", :value => "1"  %>
+    <%= form.radio_button :number, "1", :value => "1", :checked => true %>
+    <%= form.label :number, "2", :value => "2" %>
+    <%= form.radio_button :number, "2", :value => "2" %>
+    <%= form.label :number, "3", :value => "3" %>
+    <%= form.radio_button :number, "3", :value => "3" %>
+  </div><br>
+
+  <div class="field">
+    <%= form.label :menyforeldrelink %><br>
+    <%= form.select :nav_id, Nav.all.map { |u| [u.title, u.id] }, { include_blank: true }, { class: 'chosen-select' } %>
+  </div><br>
+
+  <div class="field">
+    <%= form.label :side_for_å_lenke_til %><br>
+    <%= form.select :page_id, Page.all.map { |u| [u.title, u.id] }, { include_blank: true }, { class: 'chosen-select' } %>
+  </div><br>
+
+  <div class="field">
+    <%= form.label :link %><br>
+    <%= form.text_field :link %>
+  </div><br>
+
+  <div class="actions">
+    <%= form.submit "opprett", class: 'btn btn-dark' %>
+  </div>
+<% end %>
+
+</div>

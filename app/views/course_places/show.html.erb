@@ -1,0 +1,44 @@
+<div style="padding:50px">
+
+	<p id="notice"><%= notice %></p>
+
+	<%= @course_place.name %>
+	<br>
+
+	<%= @course_place.address if @course_place.address %> <%= "#tlf: {@course_place.phone}" if @course_place.phone %>
+
+	<br>
+
+	<table class="table">
+	  <thead style="background: #ff3f00;">
+	    <tr class="course_place_table_top">
+	      <th><h2>KLOKKESLETT</h2></th>
+	      <th><h2>KURS</h2></th>
+	      <th><h2>NIVÅ</h2></th>
+	      <th colspan="3"></th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <% @courses.each do |course| %>
+	      <tr class="course_place_table">
+	        <td><%= course.time_from.strftime("%H:%M") if course.time_from %> - <%= course.time_to.strftime("%H:%M") if course.time_to %></td>
+	        <td><%= course.course_category.name if course.course_category %></td>
+	        <td><%= course.course_niveau.name if course.course_niveau %></td>
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+	<center>
+		<div class="padding main-button" style="width: 300px">
+			<%= link_to "KLIKK HER OG VELG KURS I NETTBUTIKKEN", courses_path, class: 'padding' %>
+		</div>
+	</center>
+
+	<div style="color: #a9a9a9;font-size: 16px">
+
+
+		<%= link_to 'Alle steder', courses_path %> | 
+		<%= link_to 'Tilbake', root_path %> | <%= link_to "Rediger kurs sted", edit_course_place_path(@course_place) %>
+	</div>
+
+</div>

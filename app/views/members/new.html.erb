@@ -1,0 +1,49 @@
+<div class="padding">
+<h2>Legg til deltakelse</h2>
+
+<%= form_for(@member, url: registration_path(@member)) do |f| %>
+
+
+    <%= select_tag "course_id", options_from_collection_for_select(Course.all, "id", "course_name",params[:course_id]), :prompt => "Kurs", class: "chosen-select" %>
+
+
+  <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name, autofocus: true, placeholder: "Fornavn" %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name, placeholder: "Efternavn" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :telefon %><br />
+    <%= f.text_field :phone, placeholder: "Telefon" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+
+</div>

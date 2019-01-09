@@ -1,0 +1,11 @@
+=== puma startup: 2018-12-15 06:56:44 -0800 ===
+[10314] * Starting control server on unix:///tmp/puma-status-1544885804753-10314
+[10314] - Gracefully shutting down workers...
+[10321] Early termination of worker
+[10323] Early termination of worker
+[10314] === puma shutdown: 2018-12-15 06:56:51 -0800 ===
+[10314] - Goodbye!
+=== puma startup: 2018-12-15 07:16:25 -0800 ===
+[10909] * Starting control server on unix:///tmp/puma-status-1544886985653-10903
+[10909] - Worker 1 (pid: 10921) booted, phase: 0
+[10909] - Worker 0 (pid: 10917) booted, phase: 0

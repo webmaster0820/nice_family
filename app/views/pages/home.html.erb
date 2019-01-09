@@ -1,0 +1,94 @@
+<script>
+  AOS.init();
+</script>
+
+<center style="margin-bottom: 60px;background:#000" class="padding">
+<h2 style="font-weight: 300;color:#ff3f00" data-aos="fade-up">EN VERDEN AV TRIVSEL I VANN</h2>
+<br>
+<p style="color:#aaa9a9;line-height: 1.8em" class="width65" data-aos="fade-up">
+Trivsel i vann er som ett puslespill bestående av mange små brikker. Opplevelsen av å sette sammen brikkene i form av øvelser bidrar til at barnet har det gøy. Vi bruker øvelser på pust, flyt, rotasjon, fremdrift, dykk og stup gjennom disse kursene. Dette gir mestringsfølelse og barnet vil bli trygg i vann.</p>
+
+<div class="fusion-section-separator section-separator" style="border-bottom:0px solid #ff3f00;margin-left:-0px;margin-right:-0px;"><div class="divider-candy-arrow bottom" style="border-top-color: #ff3f00;"></div></div>
+
+</center>
+<div style="background: #fff;color:#aaa9a9;padding-top:100px" data-aos="fade-up" class="image-showcase">
+	<center>
+		<h2 style="color: #aaa9a9;padding-bottom: 60px">HOS OSS TRIVES BARNET</h2>
+
+		<div class="row">
+			<div class="col-xs-12 col-sm-4 col-md-4">
+				<a href="/baby-med-badering.jpg" data-toggle="lightbox">
+          <img src="/baby-med-badering.jpg" class="img-fluid">
+        </a>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4">
+				<a href="/babyjente-i-rødprikkete-badedrakt.jpg" data-toggle="lightbox">
+          <img src="/babyjente-i-rødprikkete-badedrakt.jpg" class="img-fluid">
+        </a>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4">
+				<a href="/jente-med-svømmebriller.jpg" data-toggle="lightbox">
+          <img src="/jente-med-svømmebriller.jpg" class="img-fluid">
+        </a>
+			</div>
+		</div><br>
+		<div class="row">
+			<div class="col-xs-12 col-sm-4 col-md-4">
+				<a href="/hello-baby-som-vinker-under-vann.jpg" data-toggle="lightbox">
+          <img src="/hello-baby-som-vinker-under-vann.jpg" class="img-fluid">
+        </a>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4">
+				<a href="/Baby-som-svømmer-i-blåbadebukse.jpg" data-toggle="lightbox">
+          <img src="/Baby-som-svømmer-i-blåbadebukse.jpg" class="img-fluid">
+        </a>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4">
+				<a href="/gutt-med-sløyfe.jpg" data-toggle="lightbox">
+          <img src="/gutt-med-sløyfe.jpg" class="img-fluid">
+        </a>
+			</div>
+		</div><br>
+
+
+	</center>
+</div>
+
+<center class="padding" data-aos="fade-up">
+
+<iframe src="https://player.vimeo.com/video/295754560?color=ff3f00&title=0&byline=0&portrait=0" class="video" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="padding-bottom: 40px"></iframe>
+
+<div class="fusion-section-separator section-separator" style="border-bottom:0px solid #ff3f00;margin-left:-0px;margin-right:-0px;"><div class="divider-candy-arrow bottom" style="border-top-color: #ff3f00;"></div></div>
+
+</center>
+
+<div class="bg-header-2" style="background-image: url(jente-som-svommer-under-vann.jpg);color:#aaa9a9;padding-top:50px;">
+	<center>
+		<div class="row" style="padding: 50px" data-aos="fade-up">
+			<% @cities.each do |city| %>
+				<div class="col-md-3 col-sm-3">
+					<div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+						<div class="flipper">
+							<div class="front">
+								<div class="place">
+									<h2 style="padding-top: 45px;"><%= city.name %></h2>							
+								</div>
+							</div>
+							<div class="back">
+								<div class="place" style="background: #000 !important;border: 1px solid #323232">
+									<h2 style="color:#ff3f00;font-size: 23px;">VELG KURSSTED</h2>
+									<% @course_places.each do |place| %>
+										<% if city.id == place.id %>
+											<p style="font-size: 16px"><%= link_to place.name, place, style: 'color:#f3f2f2 !important' %></p><br>
+										<% end %>
+									<% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+				</div>
+			<% end %>
+		</div>
+	</center>
+</div>

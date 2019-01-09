@@ -1,0 +1,29 @@
+<div class="page-card">
+
+<p id="notice"><%= notice %></p>
+
+<h3>Meny lenker</h3>
+
+
+<table class="table table-hover">
+  <thead>
+    <tr style="font-size: 14px">
+      <th>Titel</th>
+      <th>Side</th>
+      <th>Lenke</th>
+      <th>Redigér/Slett</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+    <tbody>
+      <% @navs.each do |nav| %>
+        <tr style="font-size:14px !important;">
+          <td><%= nav.title if nav.title %></td>
+          <td><%= nav.page.title if nav.page.present? %></td>
+          <td><%= nav.link if nav.link.present? %></td>
+          <td><%= link_to 'Redigér', edit_sub_nav_path(nav), style: 'color: #00394c !important' %> / <%= link_to "Slett", sub_nav_path(nav), data: {:confirm => 'Er du sikker?'}, method: :delete, style: 'color: #d9534f !important' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

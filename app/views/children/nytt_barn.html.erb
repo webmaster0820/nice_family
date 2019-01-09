@@ -1,0 +1,32 @@
+<%= form_with(model: @child, local: true) do |f| %>
+  <% if @child.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@child.errors.count, "error") %> prohibited this child from being saved:</h2>
+
+      <ul>
+      <% @child.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h2>Legg til barn</h2><br>
+
+  <%= f.select "member_id", options_from_collection_for_select(Member.all.order('first_name ASC'), "id", "full_name",params[:member_id]), :prompt => "Velg konto", class: "chosen-select"if coach_signed_in? %><br><br>
+  <%= f.label :fornavn %>
+  <%= f.text_field :first_name, placeholder: 'Barn Fornavn' %><br />
+  <%= f.label :etternavn %>
+  <%= f.text_field :last_name, placeholder: 'Barn Etternavn' %><br />
+  <center>
+  <%= f.label :bursdag %><br>
+  <%= f.date_field :birthdate %>
+  <br>
+  <em style="cursor:pointer;font-size:12px;color:#777" onclick="myFunction('vis');">Viser ikke datofelt?</em><br><br>
+  <div style="display: none" id="vis"><%= f.date_select :birthdate, :start_year => 1980, :end_year => 2019 %><br><br></div>
+
+  <%= f.submit "Legg til barn", class: 'buy-button' %>
+
+  </center>
+<% end %>
+

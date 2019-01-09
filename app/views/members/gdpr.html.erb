@@ -1,0 +1,21 @@
+<div class="row">
+	<div class="col-md-6">
+
+		<div class="padding">
+			<center>
+
+				Hei <%= current_member.first_name %>!<br><br>
+				<%= form_tag("/members/#{current_member.id}/gdpr",:method=>:get) do |f| %>                        
+					<%= submit_tag "Send dataene mine", class: 'buy-button', style: 'cursor: pointer;padding: 20px; padding-left: 50px; padding-right: 50px; background: #002562 !important; border: 2px solid #FFD84A' %>
+				<% end %>
+			</center><br>
+
+		<div id="notice"><%= notice %></div>
+
+		</div>
+	</div>
+	<div class="col-md-6">
+
+		<%= image_tag '/gdpr.png', style: 'width: 100%;' %>
+	</div>
+</div>

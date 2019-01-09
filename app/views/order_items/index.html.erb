@@ -1,0 +1,44 @@
+<% if @items.any? %>
+
+<div class="padding">
+
+<h2>Bestil</h2>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<td>Kurs</td>
+				<td>Pris</td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+			<% @items.each do |item| %>
+				<tr>
+					<td style="padding: 10px"><%= item.course.course_category.name if item.course.course_category %> <%= item.course.course_niveau.name if item.course.course_niveau %> <%= item.course.course_place.name if item.course.course_place %><br></td>
+					<td><%= number_to_currency item.price %></td>
+					<td>
+						<%= form_for item, method: :delete do |f| %>
+							<%= f.submit "Slett", style: 'btn btn-danger' %>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+		<tfoot>
+			<td colspan="4" align="right">
+				<%= number_to_currency current_cart.sub_total %>
+			</td>
+		</tfoot>
+	</table>
+
+	<%= link_to "Sjekk ut", checkout_path, class: 'buy-button' %>
+<% else %>
+<center style="padding-top:50px">
+<h2>Handlekurven er tom.</h2>
+<br><br>
+<%= link_to '← Tilbake til butikken', kurs_path %>
+</center>
+<% end %>
+
+</div>

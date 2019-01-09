@@ -1,0 +1,68 @@
+
+<%#= @lists %>
+
+<div class="row">
+  <div class="col-md-6">
+    <h2 style="padding-top;padding-left: 50px;">Emails</h2>
+  </div>
+  <div class="col-md-6">
+    <%= link_to 'Opprett', new_email_path, class: 'blue-button', style: 'float:right;margin:15px' %>
+  </div>
+</div>
+<div class="page-card">
+  <div class="row">
+    <div class="col-md-5">
+      <strong>Deltaker/Kurs</strong>
+    </div>
+    <div class="col-md-5">
+      <strong>Emne</strong>
+    </div>
+    <div class="col-md-2">
+      <strong>Status</strong>
+    </div>
+  </div><br>
+  <% @emails.each do |email| %>
+    <div style="background: #f3f2f2; padding: 20px;margin-bottom: 20px;border-radius: 5px;border: 1px;">
+      <div style="font-size: 16px;font-weight: 500;" onclick="myFunction('<%#= email.id %>')">
+        <div class="row">
+          <div class="col-md-5">
+            <% if email.course %>
+              <%= email.course.course_category.name %> <%= email.course.course_place.name %> | <%= email.course.day.strftime("%A | %b %d '%y") %>
+            <% elsif email.member %>
+              <%= email.member.first_name %> <%= email.member.last_name %>
+            <% end %>
+          </div>
+          <div class="col-md-5">
+            <%=h truncate(email.subject, length: 25) %>
+          </div>
+          <div class="col-md-2">
+            <%= link_to 'SEND', edit_email_path(email), class: 'blue-button' if email.status == 'deltaker' %>
+            <%= link_to 'SEND', edit_email_path(email), class: 'blue-button' if email.status == 'kurs' %>
+            <% if email.status == "sendt" %><span style="color: #777;">Sendt! ✓<br><%= email.updated_at.strftime('%b %d') %></span><% end %>
+          </div>
+        </div>
+      </div>
+      <div id="<%= email.id %>" style="display:none;">
+        <br>
+        <table class="table table-hover">
+          <thead>
+            <tr style="font-size: 14px">
+              <th>Subject</th>
+              <th>Content</th>
+              <th>Course</th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="color:#000 !important;">
+              <td style="padding-right: 10px"><%= email.subject %></td>   
+              <td><%= email.subject %></td>
+              <td><%= email.content %></td>
+              <td><%= email.course_id %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,27 @@
+<h2>Din konto</h2>
+<div class="row" style="padding: 50px">
+	<div class="col-xs-6 col-md-4">
+			<%= image_tag @coach.profile_pic.url(:profile_pic) if @coach.profile_pic? %>
+			<%= image_tag '/profile.png' if !@coach.profile_pic? %>
+	</div>
+	<div class="col-xs-6 col-md-4">
+		<%= @coach.first_name %> <%= @coach.last_name %><br><br>
+		<strong>Email:</strong> <%= @coach.email %><br><br>
+		<strong>Telefon:</strong> <%= @coach.phone if @coach.phone %><br><br>
+		<% @courses.each do |c| %>
+			<% if c.day.past? %>
+				<div class="text-muted">
+					<%= c.course.course_niveau.name %> <%= c.course.course_category.name %> <%= c.course.course_place.name %> <%= c.day.strftime('%A | %b %d') %><br>
+				</div>
+			<% end %>
+		<% end %>
+		<% @courses.each do |c| %>
+			<% if c.day.future? %>
+				<%= c.course.course_niveau.name %> <%= c.course.course_category.name %> <%= c.course.course_place.name %> <%= c.day.strftime('%A | %b %d') %><br>
+			<% end %>
+		<% end %>
+	</div>
+	<div class="col-xs-6 col-md-4">
+		<%= link_to "Redigér konto", edit_coach_registration_path, class: 'btn btn-primary' %>
+	</div>
+</div>

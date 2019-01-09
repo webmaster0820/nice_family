@@ -1,0 +1,53 @@
+<h2 style="padding-top;padding-left: 50px;">Rediger/Send emails</h2>
+<div class="page-card">
+    <br>
+  <%= form_with(model: @email, local: true) do |form| %>
+    <% if @email.errors.any? %>
+      <div id="error_explanation">
+        <h2>En feil forbød at denne e-posten ble lagret:</h2>
+
+        <ul>
+        <% @email.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="actions" style="float:right">
+      <%= form.submit "Send email nu", class: 'buy-button' %>
+    </div>
+Email til <h3><% if @email.course %>
+              deltakere på kurs: <%= @email.course.course_category.name %> <%= @email.course.course_place.name %> | <%= @email.course.day.strftime("%A | %b %d '%y") %>
+            <% elsif @email.member %>
+              deltaker: <%= @email.member.first_name %> <%= @email.member.last_name %>
+            <% end %><br> </h3>
+<hr>
+    <div class="field">
+      <%= form.label :emne %><br>
+      <%= form.text_field :subject %>
+    </div><br>
+
+    <div class="field">
+      <%= form.label :innhold %><br>
+      <%= form.cktext_area :content, ckeditor: { language: 'nb'} %>
+    </div><br>
+
+    <div class="row">
+      <div class="col-md-6">
+
+        <%= form.label :kurs %><br>
+        <%= form.select :course_id, Course.all.map { |u| ["#{u.course_category.name}, #{u.course_place.name}, #{u.day.strftime('%A | %b %d')}", u.id] }, { include_blank: true }, { class: 'chosen-select' } %>
+      </div>
+      <div class="col-md-6">
+        <%= form.label :deltaker %><br>
+        <%= form.select :member_id, Member.all.map { |u| ["#{u.id} - #{u.first_name} #{u.last_name}", u.id] }, { include_blank: true }, { class: 'chosen-select' } %>
+      </div>
+    </div>
+    <center><div class="text-muted" style="font-size: 14px;">Velg kurs eller deltaker. IKKE begge!</div></center> <br>
+
+    <div class="actions">
+      <%= form.submit "Send email nu", class: 'buy-button' %>
+    </div>
+  <% end %>
+</div>
